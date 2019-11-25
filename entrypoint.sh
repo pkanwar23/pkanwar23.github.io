@@ -52,7 +52,7 @@ if ! git config --get user.email; then
 fi
 
 git add *.html *.xml *.png *.svg
-git commit -m -a "updates to the website"
+git commit -m "updates to the website"
 # git push orgin temp_branch
 # git remote set-url origin git@gitserver.com:pkanwar23/pkanwar.github.io.git
 # git add --all && \
