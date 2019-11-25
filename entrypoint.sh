@@ -7,8 +7,6 @@ echo "starting to execute script"
 
 echo 'value of environment variables' $HUGO_VERSION $PUSH_TOKEN $GITHUB_TOKEN $INPUT_REPO-TOKEN 'delimiter' $GITHUB_WORKSPACE 'delimiter' $TARGET_REPO
 
-echo 'pwd: ' $pwd
-
 if [[ -z "$PUSH_TOKEN" ]]; then
         echo "using PUSH_TOKEN env variable."
 	exit 1
@@ -24,51 +22,50 @@ if [[ -z "$HUGO_VERSION" ]]; then
     echo 'No HUGO_VERSION was set, so defaulting to '$HUGO_VERSION
 fi
 
-echo `ls -al $GITHUB_WORKSPACE`
+# echo `ls -al $GITHUB_WORKSPACE`
 
-echo 'Downloading hugo'
-curl -sSL https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz > /tmp/hugo.tar.gz && tar -f /tmp/hugo.tar.gz -xz
+# echo 'Downloading hugo'
+# curl -sSL https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz > /tmp/hugo.tar.gz && tar -f /tmp/hugo.tar.gz -xz
 
-echo 'Download complete'
-./hugo
+# echo 'Download complete'
+# ./hugo
 
-echo 'Cloning the GitHub Pages repo'
-BUILD_DIR=build
-rm -fr "${BUILD_DIR}"
+git checkout -b temp_branch
 
-TARGET_REPO_URL="https://${PUSH_TOKEN}@github.com/${TARGET_REPO}.git"
-git clone "${TARGET_REPO_URL}" "${BUILD_DIR}"
+`echo "this is a test"> test-github.txt`
+# echo 'Cloning the GitHub Pages repo' 
+# BUILD_DIR=build
+# rm -fr "${BUILD_DIR}"
 
-echo `ls -al build`
+# TARGET_REPO_URL="https://${PUSH_TOKEN}@github.com/${TARGET_REPO}.git"
+# git clone "${TARGET_REPO_URL}" "${BUILD_DIR}"
 
-echo 'Moving the content over'
-cp -r public/* build/
+# echo `ls -al build`
 
-echo 'Committing the site to git and pushing'
-(
-    if git config --get user.name; then
-        git config --global user.name "${GITHUB_ACTOR}"
-    fi
+# echo 'Moving the content over'
+# cp -r public/* build/
 
-    if ! git config --get user.email; then
-        git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-    fi
+# cd "${BUILD_DIR}"
+# cd public
+# echo "checking public directory"
+echo "check file"
+echo `ls -al`
 
-    cd "${BUILD_DIR}"
+if git config --get user.name; then
+      git config --global user.name "${GITHUB_ACTOR}"
+fi
 
-    if git diff --exit-code; then
-        echo "There is nothing to commit, so aborting"
-        exit 0
-    fi
+if ! git config --get user.email; then
+      git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+fi
 
-    # Now add all the changes and commit and push
-    git add . && \
-    git commit -m "Publishing site $(date)" && \
-    git push origin master
-)
+git add test-github.txt
+git commit -m "test"
+# git push orgin temp_branch
+# git remote set-url origin git@gitserver.com:pkanwar23/pkanwar.github.io.git
+# git add --all && \
+# git commit -m "Github Action Build ${GITHUB_SHA} `date +'%Y-%m-%d %H:%M:%S'`" --allow-empty && \
+git remote set-url origin https://${GITHUB_ACTOR}:${PUSH_TOKEN}@github.com/pkanwar23/pkanwar.github.io.git
+git push origin temp_branch
 
 echo 'Complete'
-
-
-
-
