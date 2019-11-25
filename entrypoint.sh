@@ -65,7 +65,7 @@ git commit -m "test"
 # git remote set-url origin git@gitserver.com:pkanwar23/pkanwar.github.io.git
 # git add --all && \
 # git commit -m "Github Action Build ${GITHUB_SHA} `date +'%Y-%m-%d %H:%M:%S'`" --allow-empty && \
-git remote set-url origin https://${GITHUB_ACTOR}:${PUSH_TOKEN}@github.com/pkanwar23/pkanwar.github.io.git
+git remote set-url origin https://${GITHUB_ACTOR}:${PUSH_TOKEN}@github.com/pkanwar23/pkanwar23.github.io.git
 git push origin temp_branch
 
 echo 'Complete'
