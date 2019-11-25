@@ -51,7 +51,7 @@ if ! git config --get user.email; then
       git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 fi
 
-git add *.html *.xml *.png *.svg
+git add *
 git commit -m "updates to the website"
 # git push orgin temp_branch
 # git remote set-url origin git@gitserver.com:pkanwar23/pkanwar.github.io.git
