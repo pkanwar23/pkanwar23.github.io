@@ -32,7 +32,7 @@ cd website
 rm -fr public
 echo 'deleted public'
 
-./hugo
+../hugo
 
 git checkout -b temp_branch
 
