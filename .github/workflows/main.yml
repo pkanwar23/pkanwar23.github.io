@@ -8,7 +8,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v1
       - name: deploy
-        uses: pkanwar23/website@master
+        uses: pkanwar23/pkanwar23.github.io@master
         with:
           PUSH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         env:
